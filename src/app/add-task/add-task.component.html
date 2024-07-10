@@ -1,0 +1,30 @@
+<button type="button" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded" (click)="openModal()">Add Task</button>
+
+<div *ngIf="isModalOpen" class="fixed z-10 inset-0 overflow-y-auto">
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="modal-overlay fixed inset-0 bg-black opacity-50"></div>
+
+    <div class="modal-container bg-white w-3/4 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+      <div class="modal-content py-4 text-left px-6">
+
+        <div class="flex justify-between items-center pb-3">
+          <p class="text-2xl font-bold">Add New Task</p>
+          <button type="button" (click)="closeModal()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+            <svg class="h-6 w-6 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M14.293 14.293a1 1 0 0 1-1.414 0L10 11.414l-2.879 2.88a1 1 0 0 1-1.414-1.415L8.586 10 5.707 7.121a1 1 0 0 1 1.414-1.414L10 8.586l2.879-2.879a1 1 0 0 1 1.414 1.414L11.414 10l2.879 2.879a1 1 0 0 1 0 1.414z"/>
+            </svg>
+          </button>
+        </div>
+
+       
+        <div class="mb-4">
+          <input [(ngModel)]="title" placeholder="Enter task title" class="w-full p-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div class="text-center">
+          <button (click)="addTodo()" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mr-2">Add Task</button>
+          <button (click)="closeModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+.modal-overlay {
+    position:fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  .modal-container {
+    max-height: 90vh;
+  }
+  
+  @media (min-width: 640px) {
+    .modal-container {
+      max-width: 500px;
+    }
+  }
+  
