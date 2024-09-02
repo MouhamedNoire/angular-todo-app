@@ -1,0 +1,43 @@
+name: Angular CI/CD with Azure VM Deployment
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '22.0'
+
+    - name: Install dependencies
+      run: npm Install
+    - name: Build
+      run: npm run build -- --prod
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/todo-app:latest
+
+    - name: Deploy to Azure VM
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.AZURE_VM_IP }}
+        username: ${{ secrets.AZURE_VM_USERNAME }}
+        key: ${{ secrets.AZURE_VM_SSH_KEY }}
+        script: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}todo-app:latest
+          docker stop my-angular-app || true
+          docker rm my-angular-app || true
+          docker run -d --name my-angular-app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/todo-app:latest
